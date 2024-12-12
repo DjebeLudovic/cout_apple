@@ -1,13 +1,10 @@
-stages:
-  - deploy
-
-deploy:
+pages:
   stage: deploy
   script:
-    - mkdir public
-    - cp -r * public
+    - mkdir .public
+    - cp -r * .public
   artifacts:
     paths:
-      - public
+      - .public
   only:
     - master
