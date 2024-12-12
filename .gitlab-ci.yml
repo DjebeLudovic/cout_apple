@@ -1,4 +1,8 @@
-pages:
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
   script:
     - mkdir public
     - cp -r * public
