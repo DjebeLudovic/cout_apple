@@ -381,35 +381,37 @@
       Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
   </footer><!-- End Footer -->
+<script>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  <script>
-    // Charger les données JSON
-    fetch('https://mounacarnel.gitlab.io/pweb/cout_apple/moduleweb/dataset/cours_apple_5.json')
-    .then(response => response.json())
-    .then(data => {
-        const tableBody = document.getElementById('table-body');
-        data.forEach(row => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${row.Date}</td>
-                <td>${row.Ouverture}</td>
-                <td>${row['Plus Haut']}</td>
-                <td>${row['Plus Bas']}</td>
-                <td>${row.Ferme}</td>
-                <td>${row['Clôture Ajustée']}</td>
-                <td>${row.Volume}</td>
-            `;
-            tableBody.appendChild(tr);
-        });
-
-        // Activer DataTables
-        new simpleDatatables.DataTable('.datatable');
-    })
-    .catch(error => {
-        alert("Une erreur est survenue lors du chargement des données. Veuillez réessayer.");
-        console.error("Erreur:", error);
-    });
+  console.log("Tentative de chargement des données...");
+  fetch('https://mounacarnel.gitlab.io/pweb/cout_apple/moduleweb/dataset/cours_apple_5.json')
+      .then(response => response.json())
+      .then(data => {
+          console.log("Données chargées :", data);
+          const tableBody = document.getElementById('table-body');
+          data.forEach(row => {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                  <td>${row.Date}</td>
+                  <td>${row.Ouverture}</td>
+                  <td>${row['Plus Haut']}</td>
+                  <td>${row['Plus Bas']}</td>
+                  <td>${row.Ferme}</td>
+                  <td>${row['Clôture Ajustée']}</td>
+                  <td>${row.Volume}</td>
+              `;
+              tableBody.appendChild(tr);
+          });
+  
+          // Activer DataTables
+          new simpleDatatables.DataTable('.datatable');
+      })
+      .catch(error => {
+          alert("Une erreur est survenue lors du chargement des données. Veuillez réessayer.");
+          console.error("Erreur:", error);
+      });
+  
 </script>
 
  <!-- Vendor JS Files -->

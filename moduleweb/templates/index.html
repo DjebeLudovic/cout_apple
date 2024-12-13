@@ -74,7 +74,7 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{url_for('tables_data')}}">
+            <a href="{{url_for('routes.tables_data')}}">
               <i class="bi bi-circle"></i><span>Table des Données</span>
             </a>
           </li>
@@ -86,7 +86,7 @@
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{ url_for('charts_echarts')}}">
+            <a href="{{ url_for('routes.charts_echarts')}}">
               <i class="bi bi-circle"></i><span>ECharts</span>
             </a>
           </li>
@@ -95,14 +95,14 @@
 
       <li class="nav-heading">Pages</li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ url_for('pages_contact')}}">
+        <a class="nav-link collapsed" href="{{ url_for('routes.pages_contact')}}">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>
         </a>
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ url_for('pages_error_404')}}">
+        <a class="nav-link collapsed" href="{{ url_for('routes.pages_error_404')}}">
           <i class="bi bi-dash-circle"></i>
           <span>Error 404</span>
         </a>
@@ -236,50 +236,14 @@
               </div>
 
             </div><!-- End Customers Card -->
-
 <!-- Reports -->
 <div class="col-12">
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Reports</h5>
-      <div id="reportsChart"></div>
-      <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          const chartDates = {{ chart_dates | tojson }};
-          const chartClosingPrices = {{ chart_closing_prices | tojson }};
-      
-          if (chartDates.length === 0 || chartClosingPrices.length === 0) {
-            console.error("Aucune donnée disponible pour le graphique.");
-          } else {
-            new ApexCharts(document.querySelector("#reportsChart"), {
-              series: [{
-                name: 'Clôture Ajustée',
-                data: chartClosingPrices
-              }],
-              chart: {
-                type: 'line',
-                height: 350,
-              },
-              xaxis: {
-                categories: chartDates,
-              },
-              stroke: {
-                curve: 'smooth',
-                width: 2
-              },
-              tooltip: {
-                x: {
-                  format: 'dd/MM/yyyy'
-                }
-              }
-            }).render();
-          }
-        });
-      </script>
-      
-            
-      
-      
+      <div id="reportsChart">
+        {{ chart_html | safe }}  <!-- Affichage du graphique Plotly -->
+      </div>
     </div>
   </div>
 </div>
@@ -330,6 +294,13 @@
     </div>
   </div>
 </div><!-- End Recent Sales -->
+
+<!-- Lien vers les données -->
+<a href="{{ url_for('routes.tables_data') }}">Voir les données</a>
+
+<!-- Lien vers les graphiques -->
+<a href="{{ url_for('routes.charts_echarts') }}">Voir les graphiques</a>
+
 
           </div>
         </div><!-- End Left side columns -->

@@ -1,40 +1,47 @@
-from flask import Flask, render_template, jsonify
-import json
+from flask import Flask, render_template
+from moduleweb.route import routes  # Importer les routes du Blueprint
+import pandas as pd
+import plotly.express as px
+import plotly.io as pio
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="moduleweb/templates")
+app.register_blueprint(routes)  # Enregistrer les routes du Blueprint
 
-# Charger les données JSON
+# Charger les données CSV
+dataset_path = os.path.join(os.getcwd(), 'moduleweb', 'dataset', 'cours_apple_5.csv')
 try:
-    with open('../cout_apple/moduleweb/dataset/cleaned_cours_apple.json', 'r') as file:
-        data = json.load(file)
+    # Utilisez pandas pour charger un fichier CSV
+    df = pd.read_csv(dataset_path)
 except FileNotFoundError:
-    data = []
-    print("Erreur : Le fichier JSON est introuvable.")
-except json.JSONDecodeError:
-    data = []
-    print("Erreur : Le fichier JSON est mal formaté.")
+    df = pd.DataFrame()  # Créer un DataFrame vide si le fichier n'est pas trouvé
+    print(f"Erreur : Le fichier CSV est introuvable ({dataset_path}).")
+except pd.errors.EmptyDataError:
+    df = pd.DataFrame()
+    print("Erreur : Le fichier CSV est vide.")
+except Exception as e:
+    df = pd.DataFrame()
+    print(f"Erreur : {e}")
+print(f"Chemin du fichier CSV : {dataset_path}")
 
 @app.route("/")
 def index():
-    if not data:
-        return render_template("index.html", chart_dates=[], chart_closing_prices=[])
+    # Vérifier que les données sont valides
+    if df.empty:
+        return render_template("index.html", chart_html=None)
 
-    # Extraire les colonnes nécessaires pour le graphique
-    chart_dates = []
-    chart_closing_prices = []
-    try:
-        chart_dates = [entry["Date"] for entry in data if "Date" in entry and entry["Date"]]
-        chart_closing_prices = [float(entry["Clôture Ajustée"].replace(',', '.')) for entry in data if "Clôture Ajustée" in entry and entry["Clôture Ajustée"]]
-    except KeyError as e:
-        print(f"Erreur : Clé manquante dans le fichier JSON - {e}")
-    except ValueError as e:
-        print(f"Erreur lors de la conversion des valeurs : {e}")
+    # Nettoyer les données (supprimer les valeurs vides et convertir les types)
+    df["Date"] = pd.to_datetime(df["Date"], errors='coerce')  # Convertir les dates
+    df["Clôture Ajustée"] = pd.to_numeric(df["Clôture Ajustée"].str.replace(',', '.'), errors='coerce')
 
-    # Assurez-vous qu'il n'y a pas de valeur undefined
-    chart_dates = [date for date in chart_dates if date is not None]
-    chart_closing_prices = [price for price in chart_closing_prices if price is not None]
-    if chart_dates is None:
-    chart_dates = []
-    return render_template("index.html", chart_dates=chart_dates, chart_closing_prices=chart_closing_prices)
+    # Créer un graphique interactif avec Plotly
+    fig = px.line(df, x='Date', y='Clôture Ajustée', title="Évolution boursière d'Apple",
+                  labels={"Clôture Ajustée": "Prix de Clôture Ajustée", "Date": "Date"})
+    
+    # Convertir le graphique Plotly en HTML pour l'affichage
+    chart_html = pio.to_html(fig, full_html=False)
+
+    return render_template("index.html", chart_html=chart_html)
+
 if __name__ == "__main__":
     app.run(debug=True)
