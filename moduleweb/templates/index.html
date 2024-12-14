@@ -69,12 +69,12 @@
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="{{url_for('routes.tables_data')}}">
+        <a class="nav-link collapsed"  href="{{url_for('routes.tables_data')}}">
           <i class="bi bi-layout-text-window-reverse"></i><span>Données</span>
         </a>
       </li><!-- End Tables Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="{{ url_for('routes.charts_echarts')}}">
+        <a class="nav-link collapsed" href="{{ url_for('routes.charts_echarts')}}">
           <i class="bi bi-bar-chart"></i><span>Charts</span>
         </a>
       </li><!-- End Charts Nav -->
@@ -110,116 +110,77 @@
     <section class="section dashboard">
       <div class="row">
 
-        <!-- Left side columns -->
         <div class="col-lg-12">
           <div class="row">
+        
+<!-- Volume Total Card -->
+<div class="col-xxl-3 col-md-6">
+  <div class="card info-card volume-card">
+    <div class="card-body">
+      <h5 class="card-title">Volume Total</h5>
+      <div class="d-flex align-items-center">
+        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-box"></i>
+        </div>
+        <div class="ps-3">
+          <h6>{{ total_volume }}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- End Volume Card -->
 
-            <!-- Sales Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
+<!-- Revenue Total Card -->
+<div class="col-xxl-3 col-md-6">
+  <div class="card info-card revenue-card">
+    <div class="card-body">
+      <h5 class="card-title">Revenue Total</h5>
+      <div class="d-flex align-items-center">
+        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+          <i class="bi bi-currency-dollar"></i>
+        </div>
+        <div class="ps-3">
+          <h6>{{ revenue }}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- End Revenue Card -->
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
+<!-- Variation Card -->
+<div class="col-xxl-3 col-md-5">
+  <div class="card info-card variation-card">
+      <div class="card-body">
+          <h5 class="card-title">Variation Moy <span>| {{ selected_year or "Toutes les années" }}</span></h5>
+          <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-graph-up"></i>
               </div>
-            </div><!-- End Sales Card -->
-
-            <!-- Revenue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                    </div>
-                  </div>
-                </div>
-
+              <div class="ps-3">
+                  <h6>{{ average_variation | round(2) }}%</h6>
               </div>
-            </div><!-- End Revenue Card -->
+          </div>
+      </div>
+  </div>
+</div>
 
-            <!-- Customers Card -->
-            <div class="col-xxl-4 col-xl-6">
-
-              <div class="card info-card customers-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-people"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
-                    </div>
-                  </div>
-
-                </div>
+<!-- Customers Card -->
+<div class="col-xxl-3 col-md-6">
+  <div class="card info-card customers-card">
+      <div class="card-body">
+          <h5 class="card-title">Nbre Enregistrements <span>| {{ selected_year or "Toutes les années" }}</span></h5>
+          <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-people"></i>
               </div>
-
-            </div><!-- End Customers Card -->
+              <div class="ps-3">
+                  <h6>{{ customer_count }}</h6>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+      
 <div class="col-12">
   <div class="card">
       <div class="card-body">

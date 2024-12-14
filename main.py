@@ -8,6 +8,18 @@ import os
 app = Flask(__name__, template_folder="moduleweb/templates")
 app.register_blueprint(routes)  # Enregistrer les routes du Blueprint
 
+# Fonction pour formater les grands nombres en utilisant K, M, B
+def format_large_number(value):
+    """Formate les grands nombres en utilisant des suffixes comme K, M, B"""
+    if value >= 1e9:
+        return f"{value / 1e9:.1f}B"  # Milliard
+    elif value >= 1e6:
+        return f"{value / 1e6:.1f}M"  # Million
+    elif value >= 1e3:
+        return f"{value / 1e3:.1f}K"  # Mille
+    else:
+        return f"{value}"
+
 # Charger les données CSV
 dataset_path = os.path.join('moduleweb', 'dataset', 'cours_apple_5.csv')
 try:
@@ -15,10 +27,18 @@ try:
     df["Date"] = pd.to_datetime(df["Date"], errors='coerce')
     df["Année"] = df["Date"].dt.year.astype("Int64")  # Convertir l'année en entier
     df["Mois"] = df["Date"].dt.month  # Ajouter la colonne Mois
+    
+    # Nettoyer et convertir les colonnes numériques en float
     df["Clôture Ajustée"] = pd.to_numeric(df["Clôture Ajustée"].str.replace(',', '.'), errors='coerce')
     df["Plus Haut"] = pd.to_numeric(df["Plus Haut"].str.replace(',', '.'), errors='coerce')
     df["Plus Bas"] = pd.to_numeric(df["Plus Bas"].str.replace(',', '.'), errors='coerce')
     df["Ferme"] = pd.to_numeric(df["Ferme"].str.replace(',', '.'), errors='coerce')
+    df["Volume"] = pd.to_numeric(df["Volume"].str.replace(' ', '').str.replace(',', ''), errors='coerce')  # Nettoyer aussi "Volume"
+    df["Ouverture"] = pd.to_numeric(df["Ouverture"].str.replace(',', '.'), errors='coerce')  # Assurez-vous que la colonne "Ouverture" est propre
+
+    # Retirer les lignes où il y a des NaN dans les colonnes pertinentes
+    df.dropna(subset=["Clôture Ajustée", "Ouverture", "Plus Haut", "Plus Bas", "Ferme", "Volume"], inplace=True)
+    
 except FileNotFoundError:
     df = pd.DataFrame()
     print(f"Erreur : Le fichier CSV est introuvable ({dataset_path}).")
@@ -51,7 +71,20 @@ def index():
         else:
             sale['Date'] = 'N/A'  # Si la date est invalide, afficher 'N/A'
 
-    # Créer le graphique détaillé
+    # **Calcul des données pour les cartes dynamiques :**
+    total_volume = filtered_df["Volume"].sum() if not filtered_df.empty else 0
+    revenue = (filtered_df["Volume"] * filtered_df["Clôture Ajustée"]).sum() if not filtered_df.empty else 0
+    average_variation = (
+        ((filtered_df["Clôture Ajustée"] - filtered_df["Ouverture"]) / filtered_df["Ouverture"] * 100).mean()
+        if not filtered_df.empty else 0
+    )
+    customer_count = len(filtered_df) if not filtered_df.empty else 0
+
+    # Formater les grands nombres pour le volume total et revenu
+    total_volume_formatted = format_large_number(total_volume)
+    revenue_formatted = format_large_number(revenue)
+
+    # Créer le graphique interactif avec plotly.express.line()
     fig = px.line(
         filtered_df,
         x='Date',
@@ -89,7 +122,17 @@ def index():
     # Années disponibles pour le filtre
     years = sorted(df["Année"].dropna().unique())
 
-    return render_template("index.html", chart_html=chart_html, years=years, selected_year=selected_year, recent_sales=recent_sales)
+    return render_template(
+        "index.html",
+        chart_html=chart_html,
+        years=years,
+        selected_year=selected_year,
+        recent_sales=recent_sales,
+        total_volume=total_volume_formatted,
+        revenue=revenue_formatted,
+        average_variation=average_variation,
+        customer_count=customer_count,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
