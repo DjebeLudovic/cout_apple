@@ -10,24 +10,24 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{{url_for('static',filename='assets/img/favicon.png')}}" rel="icon">
-  <link href="{{url_for('static',filename='assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+  <link href="{{url_for('routes.static',filename='assets/img/favicon.png')}}" rel="icon">
+  <link href="{{url_for('routes.static',filename='assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="{{url_for('static',filename='assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-  <link href="{{url_for('static',filename='assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
-  <link href="{{url_for('static',filename='assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
-  <link href="{{url_for('static',filename='assets/vendor/quill/quill.snow.css')}}" rel="stylesheet">
-  <link href="{{url_for('static',filename='assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
-  <link href="{{url_for('static',filename='assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
-  <link href="{{url_for('static',filename='assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
+  <link href="{{url_for('routes.static',filename='assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+  <link href="{{url_for('routes.static',filename='assets/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
+  <link href="{{url_for('routes.static',filename='assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
+  <link href="{{url_for('routes.static',filename='assets/vendor/quill/quill.snow.css')}}" rel="stylesheet">
+  <link href="{{url_for('routes.static',filename='assets/vendor/quill/quill.bubble.css')}}" rel="stylesheet">
+  <link href="{{url_for('routes.static',filename='assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
+  <link href="{{url_for('routes.static',filename='assets/vendor/simple-datatables/style.css')}}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="{{url_for('static',filename='assets/css/style.css')}}" rel="stylesheet">
+  <link href="{{url_for('routes.static',filename='assets/css/style.css')}}" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -45,7 +45,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a  href="{{url_for('index')}}" class="logo d-flex align-items-center">
-        <img src="{{url_for('static',filename='assets/img/logo.png')}}" alt="">
+        <img src="{{url_for('routes.static',filename='assets/img/logo.png')}}" alt="">
         <span class="d-none d-lg-block">Apple Predict</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -63,21 +63,16 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link "  href="{{url_for('index')}}">
+        <a class="nav-link collapsed "  href="{{url_for('index')}}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link collapsed"  href="{{url_for('routes.tables_data')}}">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Données</span>
+        <a class="nav-link "  href="{{url_for('routes.tables_data')}}">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Prediction</span>
         </a>
       </li><!-- End Tables Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed"  href="{{ url_for('routes.charts_echarts')}}">
-          <i class="bi bi-bar-chart"></i><span>Charts</span>
-        </a>
-      </li><!-- End Charts Nav -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url_for('routes.pages_contact')}}">
           <i class="bi bi-envelope"></i>
@@ -142,30 +137,30 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+      <strong><span>ApplePredict</span></strong>
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->
       <!-- You can delete the links only if you purchased the pro version. -->
       <!-- Licensing information: https://bootstrapmade.com/license/ -->
       <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      Designed by <a href="https://bootstrapmade.com/">Fikoue & Djebe</a>
     </div>
   </footer><!-- End Footer -->
 
 
  <!-- Vendor JS Files -->
- <script src="{{url_for('static',filename='assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
- <script src="{{url_for('static',filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
- <script src="{{url_for('static',filename='assets/vendor/chart.js/chart.umd.js')}}"></script>
- <script src="{{url_for('static',filename='assets/vendor/echarts/echarts.min.js')}}"></script>
- <script src="{{url_for('static',filename='assets/vendor/quill/quill.js')}}"></script>
- <script src="{{url_for('static',filename='assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
- <script src="{{url_for('static',filename='assets/vendor/tinymce/tinymce.min.js')}}"></script>
- <script src="{{url_for('static',filename='assets/vendor/php-email-form/validate.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/vendor/chart.js/chart.umd.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/vendor/echarts/echarts.min.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/vendor/quill/quill.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/vendor/simple-datatables/simple-datatables.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/vendor/tinymce/tinymce.min.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/vendor/php-email-form/validate.js')}}"></script>
 
  <!-- Template Main JS File -->
- <script src="{{url_for('static',filename='assets/js/main.js')}}"></script>
+ <script src="{{url_for('routes.static',filename='assets/js/main.js')}}"></script>
 
 </body>
 

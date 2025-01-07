@@ -6,7 +6,7 @@ import plotly.io as pio
 import os
 
 app = Flask(__name__, template_folder="moduleweb/templates")
-app.register_blueprint(routes)  # Enregistrer les routes du Blueprint
+app.register_blueprint(routes, url_prefix='/')  # Enregistrer les routes du Blueprint
 
 # Fonction pour formater les grands nombres en utilisant K, M, B
 def format_large_number(value):
