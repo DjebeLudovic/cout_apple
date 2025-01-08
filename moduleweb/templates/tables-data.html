@@ -94,43 +94,47 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Data Tables</h1>
+      <h1>PREDICTION</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">Data</li>
+          <li class="breadcrumb-item">prediction</li>
+          <li class="breadcrumb-item active">valeur</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
-    <section class="section">
-      <div class="row">
-          <div class="col-lg-12">
-              <div class="card">
-                  <div class="card-body">
-                      <h5 class="card-title">Tableau des Données de Marché</h5>
-                      <table class="table datatable">
-                          <thead>
-                              <tr>
-                                  <th>Date</th>
-                                  <th>Ouverture</th>
-                                  <th>Plus Haut</th>
-                                  <th>Plus Bas</th>
-                                  <th>Ferme</th>
-                                  <th>Clôture Ajustée</th>
-                                  <th>Volume</th>
-                              </tr>
-                          </thead>
-                          <tbody id="table-body">
-                              <!-- Les données seront insérées ici -->
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </section>  
+      <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                      <!-- Formulaire pour entrer  -->
+                      <form action="{{ url_for('routes.tables_data') }}" method="post">
+                        <label for="prediction_days">Enter Number of Days to Predict:</label>
+                        <input type="number" id="prediction_days" name="prediction_days" min="1" required>
+                        <button type="submit">Predict</button>
+                    </form>
+                    
+                    <!-- Afficher la prédiction -->
+                    {% if prediction %}
+                        <h2>Predicted Prices for the next {{ prediction_days }} days:</h2>
+                        <ul>
+                            {% for price in prediction %}
+                                <li>{{ price }}</li>
+                            {% endfor %}
+                        </ul>
+                    
+                        <!-- Afficher le graphique des prédictions -->
+                        <div id="prediction-plot">
+                            <img src="{{ url_for('routes.prediction_plot') }}" alt="Prediction Plot">
+                        </div>
+                    {% endif %}                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>  
 
   </main><!-- End #main -->
 
