@@ -5,7 +5,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import load_model
 
 # Charger le dataset
-df = pd.read_csv(r'C:\v_librairie\pwp\prediction_apple\moduleweb\dataset\cours_apple_5.csv')
+df = pd.read_csv(r'pwp\prediction_apple\moduleweb\dataset\cours_apple_5.csv')
 
 # Fonction pour nettoyer et convertir les colonnes contenant des valeurs numériques
 def clean_and_convert_column(col):
