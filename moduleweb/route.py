@@ -36,11 +36,9 @@ def tables_data():
     prediction_days = None
     
     if request.method == 'POST':
-        # Récupérer la date saisie par l'utilisateur
         prediction_days = request.form.get('prediction_days', type=int)
 
         if prediction_days:
-            # Convertir la date en datetime
             input_date = pd.to_datetime(prediction_days, errors='coerce')
 
             # Effectuer la prédiction
